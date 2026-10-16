@@ -335,5 +335,156 @@ export const memberTwoPlaces = [
   }
 ];
 
-// --- COMBINED ALL PLACES ---
-export const allPlaces = [...memberOnePlaces, ...memberTwoPlaces];
+
+// --- MEMBER 3: EASTERN SUBURBS, THANE & NAVI MUMBAI ---
+export const memberThreePlaces = [
+  // --- CHEAP EATS ---
+  {
+    "id": "m3_1",
+    "city": "Mumbai",
+    "name": "Maddu's Mess",
+    "zone": "Powai",
+    "category": "Cheap Eats",
+    "budget": "₹40–₹100",
+    "budgetPenalty": 0,
+    "lat": 19.1258,
+    "lng": 72.9161,
+    "shortNote": "Affordable South Indian breakfast spot near IIT Market Gate, popular among students.",
+    "baseScore": 65,
+    "visits": 0,
+    "imageUrl": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500"
+  },
+  {
+    "id": "m3_2",
+    "city": "Mumbai",
+    "name": "Mahendru Bhai Chinese",
+    "zone": "Powai",
+    "category": "Cheap Eats",
+    "budget": "Under ₹100",
+    "budgetPenalty": 0,
+    "lat": 19.1242,
+    "lng": 72.9147,
+    "shortNote": "Budget street-style Indo-Chinese eatery opposite IIT Bombay Main Gate.",
+    "baseScore": 60,
+    "visits": 0,
+    "imageUrl": "https://images.unsplash.com/photo-1525755662778-989d0524087e?w=500"
+  },
+  {
+    "id": "m3_3",
+    "city": "Mumbai",
+    "name": "Huma Cinema Lane Momo Stall",
+    "zone": "Kanjurmarg",
+    "category": "Cheap Eats",
+    "budget": "Under ₹100",
+    "budgetPenalty": 0,
+    "lat": 19.1305,
+    "lng": 72.9348,
+    "shortNote": "Local student favorite momo stall hidden in the lane near Huma Cinema.",
+    "baseScore": 75,
+    "visits": 0,
+    "imageUrl": "https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=500"
+  },
+
+  // --- STUDY SPOTS ---
+  {
+    "id": "m3_4",
+    "city": "Mumbai",
+    "name": "Kopri Reading Library",
+    "zone": "Thane East",
+    "category": "Study Spot",
+    "budget": "Nominal Fee",
+    "budgetPenalty": 5,
+    "lat": 19.1832,
+    "lng": 72.9774,
+    "shortNote": "Quiet neighborhood reading room providing dedicated study tables for students.",
+    "baseScore": 65,
+    "visits": 0,
+    "imageUrl": "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=500"
+  },
+  {
+    "id": "m3_5",
+    "city": "Mumbai",
+    "name": "Sheetal Reading Library",
+    "zone": "Mulund West",
+    "category": "Study Spot",
+    "budget": "Nominal Fee",
+    "budgetPenalty": 5,
+    "lat": 19.1726,
+    "lng": 72.9564,
+    "shortNote": "Peaceful study center with seating facilities tailored for competitive exam prep.",
+    "baseScore": 55,
+    "visits": 0,
+    "imageUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500"
+  },
+
+  // --- VIEWPOINTS ---
+  {
+    "id": "m3_6",
+    "city": "Mumbai",
+    "name": "Nagla Bandar Sunset Point",
+    "zone": "Thane",
+    "category": "Viewpoint",
+    "budget": "Free",
+    "budgetPenalty": 0,
+    "lat": 19.2783,
+    "lng": 72.9592,
+    "shortNote": "Serene creekside sunset viewing spot away from crowded city promenades.",
+    "baseScore": 75,
+    "visits": 0,
+    "imageUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500"
+  },
+  {
+    "id": "m3_7",
+    "city": "Mumbai",
+    "name": "Bird Watching Tower",
+    "zone": "Thane",
+    "category": "Viewpoint",
+    "budget": "Free",
+    "budgetPenalty": 0,
+    "lat": 19.2241,
+    "lng": 72.9734,
+    "shortNote": "Elevated observation tower overlooking the forest canopy near Manpada.",
+    "baseScore": 70,
+    "visits": 0,
+    "imageUrl": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=500"
+  },
+
+  // --- HIDDEN SPOTS ---
+  {
+    "id": "m3_8",
+    "city": "Mumbai",
+    "name": "Nisarga Parichaya Kendra",
+    "zone": "Thane",
+    "category": "Hidden Spot",
+    "budget": "Free",
+    "budgetPenalty": 0,
+    "lat": 19.2312,
+    "lng": 72.9621,
+    "shortNote": "Eco-educational trail and nature interpretation center nestled near Kokanipada.",
+    "baseScore": 65,
+    "visits": 0,
+    "imageUrl": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500"
+  },
+  {
+    "id": "m3_9",
+    "city": "Mumbai",
+    "name": "Manpada Forest Trail Head",
+    "zone": "Thane",
+    "category": "Hidden Spot",
+    "budget": "Free",
+    "budgetPenalty": 0,
+    "lat": 19.2285,
+    "lng": 72.9782,
+    "shortNote": "Offbeat nature access point to the Sanjay Gandhi National Park buffer zone.",
+    "baseScore": 70,
+    "visits": 0,
+    "imageUrl": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=500"
+  }
+];
+
+// --- COMBINED ALL PLACES (28 TOTAL SPOTS) ---
+export const allPlaces = [
+  ...memberOnePlaces, 
+  ...memberTwoPlaces, 
+  ...memberThreePlaces
+];
