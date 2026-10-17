@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { allPlaces } from './placesData'; 
@@ -10,26 +10,33 @@ let DefaultIcon = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconSize: [25, 
 L.Marker.prototype.options.icon = DefaultIcon;
 
 export default function App() {
-  // Starts blank so the welcome screen forces a dropdown selection
   const [city, setCity] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
-  const [places, setPlaces] = useState(allPlaces);
+  
+  // UPDATED: Check Local Storage first. If it's empty, load the data from placesData.js
+  const [places, setPlaces] = useState(() => {
+    const savedPlaces = localStorage.getItem('hiddenGemsData');
+    return savedPlaces ? JSON.parse(savedPlaces) : allPlaces;
+  });
 
   const categories = ['All', 'Cheap Eats', 'Study Spot', 'Viewpoint', 'Hidden Spot'];
 
-  // Real-time update logic for the check-in button
+  // UPDATED: Save the new scores to Local Storage every time a button is clicked
   const handleVisit = (id) => {
-    setPlaces(places.map(place => {
+    const updatedPlaces = places.map(place => {
       if (place.id === id) {
         const newVisits = (place.visits || 0) + 1;
         const newScore = Math.max(10, (place.baseScore || 100) - (newVisits * 5) - (place.budgetPenalty || 0));
         return { ...place, visits: newVisits, currentScore: newScore };
       }
       return place;
-    }));
+    });
+    
+    setPlaces(updatedPlaces);
+    localStorage.setItem('hiddenGemsData', JSON.stringify(updatedPlaces));
   };
 
-  // 1. The Welcome Screen (Dropdown Menu Only)
+  // 1. The Welcome Screen
   if (!city) {
     return (
       <div className="h-screen w-full bg-slate-50 flex flex-col items-center justify-center p-6 font-sans">
@@ -45,7 +52,6 @@ export default function App() {
             Discover the city's best kept secrets. Select your location below to start exploring.
           </p>
           
-          {/* Strict 3-Option Dropdown Menu */}
           <div className="relative">
             <select 
               onChange={(e) => setCity(e.target.value)}
@@ -63,7 +69,7 @@ export default function App() {
     );
   }
 
-  // 2. The Coming Soon Screen (If they pick Pune or Delhi)
+  // 2. The Coming Soon Screen
   if (city !== 'Mumbai') {
     return (
       <div className="h-screen w-full bg-slate-50 flex flex-col items-center justify-center p-6 font-sans text-center">
@@ -83,7 +89,7 @@ export default function App() {
     );
   }
 
-  // 3. The Main Dashboard (If they pick Mumbai)
+  // 3. The Main Dashboard
   const filteredPlaces = places.filter(p => categoryFilter === 'All' || p.category === categoryFilter);
 
   return (
@@ -91,7 +97,6 @@ export default function App() {
       <header className="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center z-20 flex-shrink-0">
         <h1 className="text-2xl font-black text-slate-800 tracking-tight">Hidden<span className="text-indigo-600">Gems</span></h1>
         
-        {/* Top Right Dropdown to switch cities instantly */}
         <select 
           onChange={(e) => setCity(e.target.value)} 
           value={city} 
@@ -155,7 +160,6 @@ export default function App() {
                       </span>
                     </div>
 
-                    {/* Instant Real-Time Check-In Button */}
                     <button 
                       onClick={() => handleVisit(place.id)}
                       className="mt-6 w-full bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white py-3.5 font-bold rounded-xl transition-colors"
