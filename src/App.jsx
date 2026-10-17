@@ -10,12 +10,14 @@ let DefaultIcon = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconSize: [25, 
 L.Marker.prototype.options.icon = DefaultIcon;
 
 export default function App() {
-  const [city, setCity] = useState('Mumbai');
+  // Starts blank so the welcome screen forces a dropdown selection
+  const [city, setCity] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [places, setPlaces] = useState(allPlaces);
 
   const categories = ['All', 'Cheap Eats', 'Study Spot', 'Viewpoint', 'Hidden Spot'];
 
+  // Real-time update logic for the check-in button
   const handleVisit = (id) => {
     setPlaces(places.map(place => {
       if (place.id === id) {
@@ -27,37 +29,75 @@ export default function App() {
     }));
   };
 
+  // 1. The Welcome Screen (Dropdown Menu Only)
+  if (!city) {
+    return (
+      <div className="h-screen w-full bg-slate-50 flex flex-col items-center justify-center p-6 font-sans">
+        <div className="bg-white p-10 rounded-3xl shadow-xl border border-slate-100 max-w-lg w-full text-center">
+          <div className="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h1 className="text-4xl font-black text-slate-800 mb-4 tracking-tight">Welcome to Hidden<span className="text-indigo-600">Gems</span></h1>
+          <p className="text-slate-500 mb-8 text-lg leading-relaxed">
+            Discover the city's best kept secrets. Select your location below to start exploring.
+          </p>
+          
+          {/* Strict 3-Option Dropdown Menu */}
+          <div className="relative">
+            <select 
+              onChange={(e) => setCity(e.target.value)}
+              defaultValue=""
+              className="w-full appearance-none bg-slate-50 border-2 border-indigo-100 text-slate-800 text-lg font-bold rounded-xl py-4 px-6 cursor-pointer focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition-all hover:bg-slate-100 text-center"
+            >
+              <option value="" disabled>🔽 Choose a city from the menu 🔽</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Pune">Pune</option>
+              <option value="Delhi">Delhi</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 2. The Coming Soon Screen (If they pick Pune or Delhi)
   if (city !== 'Mumbai') {
     return (
       <div className="h-screen w-full bg-slate-50 flex flex-col items-center justify-center p-6 font-sans text-center">
         <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 max-w-md w-full">
           <h1 className="text-3xl font-extrabold text-slate-800 mb-2">Coming Soon to {city}!</h1>
           <p className="text-slate-500 mb-8 leading-relaxed">
-            Our data model is city-agnostic. To launch here, we just need to seed local spots and update the map center.
+            Our platform scales easily. To launch in {city}, we just need to add local hidden spots to the database.
           </p>
           <button 
-            onClick={() => setCity('Mumbai')} 
+            onClick={() => setCity('')} 
             className="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all shadow-md"
           >
-            Return to Mumbai Pilot
+            Back to Menu
           </button>
         </div>
       </div>
     );
   }
 
+  // 3. The Main Dashboard (If they pick Mumbai)
   const filteredPlaces = places.filter(p => categoryFilter === 'All' || p.category === categoryFilter);
 
   return (
     <div className="h-screen w-full bg-slate-50 flex flex-col font-sans overflow-hidden">
       <header className="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center z-20 flex-shrink-0">
         <h1 className="text-2xl font-black text-slate-800 tracking-tight">Hidden<span className="text-indigo-600">Gems</span></h1>
+        
+        {/* Top Right Dropdown to switch cities instantly */}
         <select 
           onChange={(e) => setCity(e.target.value)} 
           value={city} 
-          className="bg-slate-100 border-none text-slate-700 text-sm font-semibold rounded-lg py-2.5 px-4 cursor-pointer"
+          className="bg-slate-100 border-none text-slate-700 text-sm font-semibold rounded-lg py-2.5 px-4 cursor-pointer hover:bg-slate-200 transition-colors"
         >
-          <option value="Mumbai">📍 Mumbai (Pilot)</option>
+          <option value="Mumbai">📍 Mumbai</option>
           <option value="Pune">📍 Pune</option>
           <option value="Delhi">📍 Delhi</option>
         </select>
@@ -115,6 +155,7 @@ export default function App() {
                       </span>
                     </div>
 
+                    {/* Instant Real-Time Check-In Button */}
                     <button 
                       onClick={() => handleVisit(place.id)}
                       className="mt-6 w-full bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white py-3.5 font-bold rounded-xl transition-colors"
